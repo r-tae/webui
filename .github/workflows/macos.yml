@@ -93,7 +93,7 @@ jobs:
           github.repository_owner == 'webui-dev'
           && (github.ref_type == 'tag' || (github.ref_name == 'main' && github.event_name == 'push'))
         run: |
-          zip -r "$ARTIFACT.zip" "$ARTIFACT"
+          tar -czvf "$ARTIFACT.tar.gz" "$ARTIFACT"
           if [ $GITHUB_REF_TYPE == tag ]; then
             echo "TAG=$GITHUB_REF_NAME" >> $GITHUB_ENV
           else
@@ -117,7 +117,7 @@ jobs:
           && (github.ref_type == 'tag' || (github.ref_name == 'main' && github.event_name == 'push'))
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{ env.ARTIFACT }}.zip
+          artifacts: ${{ env.ARTIFACT }}.tar.gz
           tag: ${{ env.TAG }}
           body: ${{ env.BODY }}
           name: ${{ env.TITLE }}
